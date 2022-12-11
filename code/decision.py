@@ -16,7 +16,7 @@ def decision_step(Rover):
         # Steering proportional to the deviation results in
         # small offsets on straight lines and
         # large values in turns and open areas
-        offset = 0.7 * np.std(Rover.nav_angles)
+        offset = 0.8 * np.std(Rover.nav_angles)
 
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
