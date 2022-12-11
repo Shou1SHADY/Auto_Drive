@@ -105,6 +105,38 @@ def perception_step(Rover):
                   ])
     # 2) Apply perspective transform
     warped = perspect_transform(img, source, destination)
+# 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
+    navigable = color_thresh(warped)
+        # ignore half of the image as bad data
+    # navigable[0:int(navigable.shape[0]/2), :] = 0
+
+        # Obstacles are simply navigable inverted
+    mask = np.ones_like(navigable)
+    mask[:,:] = 255
+    mask = perspect_transform(mask, source, destination)
+    obstacles = np.absolute((np.float32(navigable)-1) * mask)
+        # ignore half of the image as bad data
+    # obstacles[0:int(obstacles.shape[0]/2),:] = 0
+
+        # identify the rock
+    lower_yellow = np.array([24 - 5, 100, 100])
+    upper_yellow = np.array([24 + 5, 255, 255])
+            # Convert BGR to HSV
+    hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+            # Threshold the HSV image to get only upper_yellow colors
+    rock_samples = cv2.inRange(hsv, lower_yellow, upper_yellow)
+    rock_samples = perspect_transform(rock_samples, source, destination)
+
+    # 4) Update Rover.vision_image (this will be displayed on left side of screen)
+        # Example: Rover.vision_image[:,:,0] = obstacle color-thresholded binary image
+        #          Rover.vision_image[:,:,1] = rock_sample color-thresholded binary image
+        #          Rover.vision_image[:,:,2] = navigable terrain color-thresholded binary image
+
+    Rover.vision_image[:,:,0] = obstacles
+    Rover.vision_image[:,:,1] = rock_samples
+    Rover.vision_image[:,:,2] = navigable
+    idx = np.nonzero(Rover.vision_image)
+    Rover.vision_image[idx] = 255
 
    
     return Rover
