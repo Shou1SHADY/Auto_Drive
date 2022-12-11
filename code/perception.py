@@ -138,5 +138,23 @@ def perception_step(Rover):
     idx = np.nonzero(Rover.vision_image)
     Rover.vision_image[idx] = 255
 
-   
+    # 5) Convert map image pixel values to rover-centric coords
+    xpix_navigable, ypix_navigable = rover_coords(navigable)
+    xpix_obstacles, ypix_obstacles = rover_coords(obstacles)
+    xpix_rocks, ypix_rocks = rover_coords(rock_samples)
+
+    # 6) Convert rover-centric pixel values to world coordinates
+    scale = 10.0
+    xpix_navigable, ypix_navigable = impose_range(xpix_navigable, ypix_navigable)
+    xpix_obstacles, ypix_obstacles = impose_range(xpix_obstacles, ypix_obstacles)
+    navigable_x_world, navigable_y_world = pix_to_world(xpix_navigable, ypix_navigable,
+                                                        Rover.pos[0], Rover.pos[1],
+                                                        Rover.yaw, Rover.worldmap.shape[0], scale)
+    obstacle_x_world, obstacle_y_world = pix_to_world(xpix_obstacles, ypix_obstacles,
+                                                      Rover.pos[0], Rover.pos[1],
+                                                      Rover.yaw, Rover.worldmap.shape[0], scale)
+    rock_x_world, rock_y_world = pix_to_world(xpix_rocks, ypix_rocks,
+                                              Rover.pos[0], Rover.pos[1],
+                                              Rover.yaw, Rover.worldmap.shape[0], scale)
+
     return Rover
