@@ -16,14 +16,14 @@ def decision_step(Rover):
         # Steering proportional to the deviation results in
         # small offsets on straight lines and
         # large values in turns and open areas
-        offset = 0.6 * np.std(Rover.nav_angles)
+        offset = 0.5 * np.std(Rover.nav_angles)
 
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
         # Check for Rover.mode status. I made Rover.mode a stack
         if Rover.mode[-1] == 'forward':
             # if sample rock on sight (in the left side only) and relatively close
-            if Rover.samples_angles is not None and np.mean(Rover.samples_angles) > -0.2 and np.min(Rover.samples_dists) < 30:
+            if Rover.samples_angles is not None and np.mean(Rover.samples_angles) > -0.2 and np.min(Rover.samples_dists) < 40:
                 # Rover.steer = np.clip(np.mean(Rover.samples_angles * 180 / np.pi), -15, 15)
                 Rover.rock_time = Rover.total_time
                 Rover.mode.append('rock')
