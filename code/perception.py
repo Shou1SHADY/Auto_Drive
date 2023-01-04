@@ -206,7 +206,7 @@ def perception_step(Rover):
         #if not (nav_pix[navigable_y_world][navigable_x_world] ):       #avoid overriding explored pixels
 
         Rover.worldmap[navigable_y_world, navigable_x_world, 2] = 255
-        Rover.worldmap[obstacle_y_world, obstacle_x_world, 2] -= 1 # increase fidelity
+        Rover.worldmap[obstacle_y_world, obstacle_x_world, 2] -= 2 # increase fidelity
 
 
 
