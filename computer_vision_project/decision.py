@@ -140,9 +140,9 @@ def decision_step(Rover):
                 Rover.stuck_time = Rover.total_time
             else:
                 # Approach slowly
-                slow_speed = Rover.max_vel / 2
+                slow_speed = Rover.max_vel / 2 + 0.5
                 if Rover.vel < slow_speed:
-                    Rover.throttle = 0.2
+                    Rover.throttle = 0.32
                     Rover.brake = 0
                 else:  # Else break
                     Rover.throttle = 0
