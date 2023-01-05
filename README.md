@@ -39,15 +39,17 @@ Then if you are using the Linux operating system type in your terminal <New Envi
 
 The Rover does a good job following the left wall avoiding trouble by getting unstuck if necessary. It also collects most of the sample rocks it finds on its path. It maps up to 97% of the terrain with a fidelity of 73.5%.
 
-**Improvements and Future Work**
-
-Focusing on the project requirements we will try to increase the fidelity up to 95% .
-
 **Return to the starting point**
 
 The final piece of the puzzle was to have the Rover to go back to the initial position and come to a complete stop.
 There are many ways to implement this but the easiest (and for what I would go first) would be to save the initial position when the simulation starts and query if the Rover is close to this position AND all (or most) of the rock samples have been already collected. This condition would bring the Rover to a new state: "home"
 Once in the home state the Rover would, just like for the rock state, slow down and steer on the direction of the initial position, stoping when close enough.
+
+**Improvements and Future Work**
+
+Focusing on the project requirements we will try to increase the fidelity up to 95% .
+
+
 
 **Collect all the sample rocks**
 
